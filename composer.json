@@ -1,0 +1,7 @@
+{
+    "name": "lrepolho/btcmonitor",
+    "description": "Monitor Bitcoin platforms and send email when target price is hit",
+    "type": "project",
+    "license": "WTFPL",
+    "require": {}
+}
