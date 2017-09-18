@@ -3,5 +3,7 @@
     "description": "Monitor Bitcoin platforms and send email when target price is hit",
     "type": "project",
     "license": "WTFPL",
-    "require": {}
+    "require": {
+        "guzzlehttp/guzzle": "6.3"
+    }
 }
