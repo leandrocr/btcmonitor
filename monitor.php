@@ -18,33 +18,33 @@ $client = new Client([
 $users = yaml_parse_file(__DIR__ . '/users.yaml');
 $users = $users['users'];
 
+function sendAlert($receiptEmail, $alertMessage)
+{
+    echo $alertMessage . PHP_EOL;
+
+    $mail = new PHPMailer(true);
+    $mail->SMTPDebug = 0;
+    $mail->isSMTP();
+    $mail->Host = getenv('SMTP_SERVER');
+    $mail->SMTPAuth = true;
+    $mail->Username = getenv('USERNAME');
+    $mail->Password = getenv('PASSWORD');
+    $mail->SMTPSecure = 'ssl';
+    $mail->Port = getenv('SMTP_PORT');
+
+    $mail->setFrom(getenv('USERNAME'), 'BTC Monitor');
+    $mail->addAddress($receiptEmail);
+
+    $mail->isHTML(false);
+    $mail->Subject = 'BTC Monitor';
+    $mail->Body = $alertMessage;
+
+    $mail->send();
+}
+
 while (true) {
     $response = $client->request('GET', 'api/BTC/ticker');
     $response = json_decode($response->getBody());
-
-    function sendAlert($receiptEmail, $alertMessage)
-    {
-        echo $alertMessage . PHP_EOL;
-
-        $mail = new PHPMailer(true);
-        $mail->SMTPDebug = 0;
-        $mail->isSMTP();
-        $mail->Host = getenv('SMTP_SERVER');
-        $mail->SMTPAuth = true;
-        $mail->Username = getenv('USERNAME');
-        $mail->Password = getenv('PASSWORD');
-        $mail->SMTPSecure = 'ssl';
-        $mail->Port = getenv('SMTP_PORT');
-
-        $mail->setFrom(getenv('USERNAME'), 'BTC Monitor');
-        $mail->addAddress($receiptEmail);
-
-        $mail->isHTML(false);
-        $mail->Subject = 'BTC Monitor';
-        $mail->Body = $alertMessage;
-
-        $mail->send();
-    }
 
     foreach ($users as $email => $user) {
         $lastPrice = $response->ticker->last;
