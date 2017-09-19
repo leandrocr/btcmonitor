@@ -10,4 +10,4 @@ I'm tired of loosing good opportunities to buy or sell BTC on MercadoBitcoin so 
 4) Run ```php monitor.php```
 
 ## Help?
-This software is licensed under a WTFPL – Do What the Fuck You Want to Public License, help me out by sending your PR or do wtf you want with it.
+This software is licensed under a [WTFPL – Do What the Fuck You Want to Public License](https://en.wikipedia.org/wiki/WTFPL). You can help out by sending an awesome PR or do wtf you want with this code.
