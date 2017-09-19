@@ -4,6 +4,8 @@
     "type": "project",
     "license": "WTFPL",
     "require": {
-        "guzzlehttp/guzzle": "6.3"
+        "guzzlehttp/guzzle": "6.3",
+        "phpmailer/phpmailer": "6.0.*",
+        "josegonzalez/dotenv": "dev-master"
     }
 }

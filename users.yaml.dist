@@ -1,0 +1,7 @@
+users:
+  "myemail@gmail.com":
+    low: 13500
+    high: 14499
+  "myemail+test@gmail.com":
+    low: 14500
+    high: 16500
