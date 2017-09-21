@@ -49,7 +49,7 @@ while (true) {
 
     foreach ($users as $email => $user) {
         $lastPrice = $response->ticker->last;
-        echo "Last Price: $lastPrice" . PHP_EOL;
+        echo date(DATE_ATOM) . " Last Price: $lastPrice" . PHP_EOL;
         if ($lastPrice <= $user['low']) {
             sendAlert($email, "LOW: MercadoBitcoin is now at $lastPrice");
             continue;
