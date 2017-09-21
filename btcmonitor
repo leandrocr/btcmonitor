@@ -3,7 +3,7 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-LOG_PATH = '/var/log/btcmonitor.log';
+const LOG_PATH = '/usr/local/var/log/btcmonitor.log';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -21,15 +21,16 @@ $client = new Client([
 $users = yaml_parse_file(__DIR__ . '/users.yaml');
 $users = $users['users'];
 
-function log($message)
+function logMonitor($message)
 {
     $message = date(DATE_ATOM) . " $message" . PHP_EOL;
+    echo $message;
     file_put_contents(LOG_PATH, $message, FILE_APPEND);
 }
 
 function sendAlert($receiptEmail, $alertMessage)
 {
-    log($alertMessage);
+    logMonitor($alertMessage);
 
     $mail = new PHPMailer(true);
     $mail->SMTPDebug = 0;
@@ -58,7 +59,7 @@ while (true) {
 
         foreach ($users as $email => $user) {
             $lastPrice = $response->ticker->last;
-            log("Last Price: $lastPrice");
+            logMonitor("Last Price: $lastPrice");
             if ($lastPrice <= $user['low']) {
                 sendAlert($email, "LOW: MercadoBitcoin is now at $lastPrice");
                 continue;
@@ -70,7 +71,7 @@ while (true) {
             }
         }
     } catch(\Exception $e){
-        log("ERROR: " . $e->getMessage());
+        logMonitor("ERROR: " . $e->getMessage());
         continue;
     }
 
