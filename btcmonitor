@@ -44,21 +44,27 @@ function sendAlert($receiptEmail, $alertMessage)
 }
 
 while (true) {
-    $response = $client->request('GET', 'api/BTC/ticker');
-    $response = json_decode($response->getBody());
+    try {
+        $response = $client->request('GET', 'api/BTC/ticker');
+        $response = json_decode($response->getBody());
 
-    foreach ($users as $email => $user) {
-        $lastPrice = $response->ticker->last;
-        echo date(DATE_ATOM) . " Last Price: $lastPrice" . PHP_EOL;
-        if ($lastPrice <= $user['low']) {
-            sendAlert($email, "LOW: MercadoBitcoin is now at $lastPrice");
-            continue;
-        }
+        foreach ($users as $email => $user) {
+            $lastPrice = $response->ticker->last;
+            echo date(DATE_ATOM) . " Last Price: $lastPrice" . PHP_EOL;
+            if ($lastPrice <= $user['low']) {
+                sendAlert($email, "LOW: MercadoBitcoin is now at $lastPrice");
+                continue;
+            }
 
-        if ($lastPrice >= $user['high']) {
-            sendAlert($email, "HIGH: MercadoBitcoin is now at $lastPrice");
-            continue;
+            if ($lastPrice >= $user['high']) {
+                sendAlert($email, "HIGH: MercadoBitcoin is now at $lastPrice");
+                continue;
+            }
         }
+    } catch(\Exception $e){
+        echo date(DATE_ATOM) . "ERROR: " . $e->getMessage();
+        error_log(json_encode($e));
+        continue;
     }
 
     sleep(getenv('MONITOR_INTERVAL') * 60);
